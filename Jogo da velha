@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void tabuleiro (char casas2 [3][3]){ // Função para mostrar o tabuleiro
+    system("cls"); // para limpar a tela
+    printf ("\t %c | %c | %c  \n ",casas2[0][0],casas2[0][1],casas2[0][2]);
+	printf("\t ---------\n");
+	printf("\t %c | %c | %c   \n ",casas2[1][0],casas2[1][1],casas2[1][2]);
+	printf("\t ---------\n ");
+	printf("\t %c | %c | %c   \n ",casas2[2][0],casas2[2][1],casas2[2][2]);
+    //system ("cls");
+}
+int main(){     //  Na função principal iniciamos as variáveis
+   char casas [3][3] = { {' ',' ',' '},
+                         {' ',' ',' '},
+                         {' ',' ',' '}, };
+   char resposta;
+   int contjg,linha,coluna,vez=0,i,j;
+      do{ // Início da primeira jogada
+            contjg = 1;// para começar na primeira jogada
+            for (i=0;i<=2;i++){ // variável i e j vai limpar a matriz;
+                for (j=0;j<=2;j++){
+                    casas [i][j] = ' '; // Limpa o jogo
+                }
+            }
+                do{
+                    tabuleiro (casas);// mostra o tabuleiro
+                    if (vez%2==0){ /// Para mostrar qual jogador está jogando( De quem é a vez)
+                        printf("jogador X\n"); // jogador x
+                    } else{
+                        printf("jogador 0\n"); // jogador 0
+                    }
+                    printf ("Digite a linha e coluna: "); // Peço para o usuário digitar linha e coluna
+                    scanf ("%i%i",&linha,&coluna);
+
+                    if (linha < 1 || coluna < 1 || linha > 3 || coluna > 3){ // Se ele digitar um número < 1 e > 3 (TESTA PRA VER SE ELE DIGITOU TUDO CERTO)
+                            linha = 0;    //Jogada invalida
+                            coluna = 0;   // Jogada invalida
+                    }else if (casas [linha - 1][coluna - 1] != ' '){          // Se jogar em uma casa ocupada
+                            linha = 0;    //Jogada invalida
+                            coluna = 0;   //Jogada invalida
+                    }else {
+                          if (vez%2==0){  // Se a jogada for válida ele entra aqui
+                            casas [linha - 1][coluna - 1] = 'x';
+                          }else{
+                            casas [linha - 1][coluna - 1] = '0';
+
+
+                          }
+                          vez++;
+                          contjg++;
+                    } // linha CONDIÇÕES DE VITÓRIA PARA O X
+                    if (casas[0][0]== 'x' && casas [0][1]== 'x' && casas [0][2]== 'x'){contjg = 11;}
+                    if (casas[1][0]== 'x' && casas [1][1]== 'x' && casas [1][2]== 'x'){contjg = 11;}
+                    if (casas[2][0]== 'x' && casas [2][1]== 'x' && casas [2][2]== 'x'){contjg = 11;}
+                     // coluna
+                    if (casas[0][0]== 'x' && casas [1][0]== 'x' && casas [2][0]== 'x'){contjg = 11;}
+                    if (casas[0][1]== 'x' && casas [1][1]== 'x' && casas [2][1]== 'x'){contjg = 11;}
+                    if (casas[0][2]== 'x' && casas [1][2]== 'x' && casas [2][2]== 'x'){contjg = 11;}
+                     // diagonais
+                    if (casas[0][0]== 'x' && casas [1][1]== 'x' && casas [2][2]== 'x'){contjg = 11;}
+                    if (casas[0][2]== 'x' && casas [1][1]== 'x' && casas [2][0]== 'x'){contjg = 11;}
+
+                    // linha CONDIÇÕES DE VITÓRIA PARA O 0
+                    if (casas[0][0]== '0' && casas [0][1]== '0' && casas [0][2]== '0'){contjg = 12;}
+                    if (casas[1][0]== '0' && casas [1][1]== '0' && casas [1][2]== '0'){contjg = 12;}
+                    if (casas[2][0]== '0' && casas [2][1]== '0' && casas [2][2]== '0'){contjg = 12;}
+                     // coluna
+                    if (casas[0][0]== '0' && casas [1][0]== '0' && casas [2][0]== '0'){contjg = 12;}
+                    if (casas[0][1]== '0' && casas [1][1]== '0' && casas [2][1]== '0'){contjg = 12;}
+                    if (casas[0][2]== '0' && casas [1][2]== '0' && casas [2][2]== '0'){contjg = 12;}
+                     // diagonais
+                    if (casas[0][0]== '0' && casas [1][1]== '0' && casas [2][2]== '0'){contjg = 12;}
+                    if (casas[0][2]== '0' && casas [1][1]== '0' && casas [2][0]== '0'){contjg = 12;}
+
+
+            }while(contjg <= 9); // Enquanto a jogada for menor do que 9, ou seja, permite 9 jogadas;
+            tabuleiro(casas);
+            if (contjg == 10){
+                printf("Jogo empatado!!!\n"); // Resutado da partida caso empate
+
+            } else if (contjg == 11){
+                printf("O vencedor e o jogador X\n");   // resutado da partida p/ vencedor x
+
+            } else if (contjg == 12){
+                printf("O vencedor e o jogador 0\n");   // resultado da partida p/ vencedor 0
+            }
+                printf("Deseja jogar novamente? [S-N]\n");
+                scanf ("%s", &resposta);
+
+
+      }while (resposta == 's');
+
+ 
+
+  return 0;
+}
